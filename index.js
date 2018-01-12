@@ -52,7 +52,8 @@ module.exports = function(options) {
     endTag: '<!--SCRIPTS END-->',
     fileTmpl: '<script src="%s"></script>',
     appRoot: '',
-    relative: false
+    relative: false,
+    log: false
   }, options);
 
   if (typeof options.scripts === 'string') {
@@ -79,11 +80,15 @@ module.exports = function(options) {
         padding += page.charAt(ind);
         ind -= 1;
       }
-      gutil.log('padding length', padding.length);
+      if (options.log) {
+        gutil.log('padding length', padding.length);
+      }
       newPage = page.substr(0, start + options.startTag.length) + "\n" + padding + scripts.join("\n" + padding) + "\n" + padding + page.substr(end);
       // Insert the scripts
       file.contents = new Buffer(newPage);
-      gutil.log('Scripts inserted.');
+      if (options.log) {
+        gutil.log('Scripts inserted.');
+      }
     }
   };
 
